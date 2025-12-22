@@ -1,30 +1,35 @@
 package com.ranjana.springboot.localMVP.controller;
 
 import com.ranjana.springboot.localMVP.domain.Listing;
-import com.ranjana.springboot.localMVP.dto.ListingRequest;
-import com.ranjana.springboot.localMVP.repository.ListingRepository;
+import com.ranjana.springboot.localMVP.dto.ListingResponse;
+import com.ranjana.springboot.localMVP.service.ListingService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/listings")
 public class ListingController {
 
-    private final ListingRepository repository;
+    private final ListingService listingService;
 
-    public ListingController(ListingRepository repository) {
-        this.repository = repository;
+    // Constructor injection (Spring will inject ListingService)
+    public ListingController(ListingService listingService) {
+        this.listingService = listingService;
     }
 
+    // POST /listings → create a new listing
     @PostMapping
-    public ResponseEntity<?> create(@RequestBody ListingRequest request) {
-        Listing l = new Listing();
-        l.setCity(request.city());
-        l.setPrice(request.price());
-        l.setBedrooms(request.bedrooms());
-        return ResponseEntity.ok(repository.save(l));
+    public ResponseEntity<ListingResponse> createListing(@RequestBody Listing listing) {
+        ListingResponse savedListing = listingService.saveListing(listing);
+        return ResponseEntity.status(201).body(savedListing);
+    }
+
+    // GET /listings → fetch all listings
+    @GetMapping
+    public ResponseEntity<List<ListingResponse>> getAllListings() {
+        List<ListingResponse> listings = listingService.getAllListings();
+        return ResponseEntity.ok(listings);
     }
 }
