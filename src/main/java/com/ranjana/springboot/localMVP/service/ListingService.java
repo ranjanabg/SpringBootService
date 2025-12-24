@@ -25,9 +25,9 @@ public class ListingService {
 
     public ListingResponse createListing(ListingRequest request) {
         Listing listing = new Listing();
-        listing.setCity(request.city());
-        listing.setPrice(request.price());
-        listing.setBedrooms(request.bedrooms());
+        listing.setCity(request.getCity());
+        listing.setPrice(request.getPrice());
+        listing.setBedrooms(request.getBedrooms());
 
         Listing saved = listingRepository.save(listing);
         return mapToDto(saved);

@@ -16,10 +16,10 @@ public class SubscriptionService {
 
     public Subscription create(SubscriptionRequest request) {
         Subscription s = new Subscription();
-        s.setCity(request.city());
-        s.setMinPrice(request.minPrice());
-        s.setMaxPrice(request.maxPrice());
-        s.setMinBedrooms(request.minBedrooms());
+        s.setCity(request.getCity());
+        s.setMinPrice(request.getMinPrice());
+        s.setMaxPrice(request.getMaxPrice());
+        s.setMinBedrooms(request.getMinBedrooms());
 
         return repository.save(s);
     }
