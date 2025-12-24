@@ -1,6 +1,7 @@
 package com.ranjana.springboot.localMVP.service;
 
 import com.ranjana.springboot.localMVP.domain.Listing;
+import com.ranjana.springboot.localMVP.dto.ListingRequest;
 import com.ranjana.springboot.localMVP.dto.ListingResponse;
 import com.ranjana.springboot.localMVP.repository.ListingRepository;
 import org.springframework.stereotype.Service;
@@ -18,6 +19,16 @@ public class ListingService {
     }
 
     public ListingResponse saveListing(Listing listing) {
+        Listing saved = listingRepository.save(listing);
+        return mapToDto(saved);
+    }
+
+    public ListingResponse createListing(ListingRequest request) {
+        Listing listing = new Listing();
+        listing.setCity(request.city());
+        listing.setPrice(request.price());
+        listing.setBedrooms(request.bedrooms());
+
         Listing saved = listingRepository.save(listing);
         return mapToDto(saved);
     }

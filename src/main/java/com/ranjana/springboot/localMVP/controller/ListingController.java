@@ -3,6 +3,7 @@ package com.ranjana.springboot.localMVP.controller;
 import com.ranjana.springboot.localMVP.domain.Listing;
 import com.ranjana.springboot.localMVP.dto.ListingResponse;
 import com.ranjana.springboot.localMVP.service.ListingService;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,7 +22,7 @@ public class ListingController {
 
     // POST /listings → create a new listing
     @PostMapping
-    public ResponseEntity<ListingResponse> createListing(@RequestBody Listing listing) {
+    public ResponseEntity<ListingResponse> createListing(@Valid @RequestBody Listing listing) {
         ListingResponse savedListing = listingService.saveListing(listing);
         return ResponseEntity.status(201).body(savedListing);
     }
