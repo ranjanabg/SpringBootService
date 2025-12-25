@@ -1,40 +1,42 @@
 package com.ranjana.springboot.localMVP.service;
 
+import com.ranjana.springboot.localMVP.domain.Listing;
 import com.ranjana.springboot.localMVP.domain.Subscription;
-import com.ranjana.springboot.localMVP.dto.MatchResponse;
+import com.ranjana.springboot.localMVP.dto.ListingResponse;
 import com.ranjana.springboot.localMVP.repository.ListingRepository;
 import com.ranjana.springboot.localMVP.repository.SubscriptionRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class MatchService {
 
-    private final SubscriptionRepository subscriptionRepo;
-    private final ListingRepository listingRepo;
+    private final SubscriptionRepository subscriptionRepository;
+    private final ListingRepository listingRepository;
 
-    public MatchService(SubscriptionRepository s, ListingRepository l) {
-        this.subscriptionRepo = s;
-        this.listingRepo = l;
+    public MatchService(SubscriptionRepository subscriptionRepository,
+                        ListingRepository listingRepository) {
+        this.subscriptionRepository = subscriptionRepository;
+        this.listingRepository = listingRepository;
     }
 
-    public List<MatchResponse> findMatches(Long subscriptionId) {
-        Subscription s = subscriptionRepo.findById(subscriptionId)
+    public List<ListingResponse> findMatches(Long subscriptionId) {
+        Subscription subscription = subscriptionRepository.findById(subscriptionId)
                 .orElseThrow(() -> new RuntimeException("Subscription not found"));
 
-        return listingRepo.findMatches(
-                        s.getCity(),
-                        s.getMinPrice(),
-                        s.getMaxPrice(),
-                        s.getMinBedrooms()
-                ).stream()
-                .map(l -> new MatchResponse(
-                        l.getId(),
-                        l.getCity(),
-                        l.getPrice(),
-                        l.getBedrooms()
+        return listingRepository.findAll().stream()
+                .filter(listing -> listing.getCity().equals(subscription.getCity()))
+                .filter(listing -> listing.getPrice() >= subscription.getMinPrice()
+                        && listing.getPrice() <= subscription.getMaxPrice())
+                .filter(listing -> listing.getBedrooms() >= subscription.getMinBedrooms())
+                .map(listing -> new ListingResponse(
+                        listing.getId(),
+                        listing.getCity(),
+                        listing.getPrice(),
+                        listing.getBedrooms()
                 ))
-                .toList();
+                .collect(Collectors.toList());
     }
 }
