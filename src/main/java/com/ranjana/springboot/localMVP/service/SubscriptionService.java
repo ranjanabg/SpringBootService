@@ -2,8 +2,12 @@ package com.ranjana.springboot.localMVP.service;
 
 import com.ranjana.springboot.localMVP.domain.Subscription;
 import com.ranjana.springboot.localMVP.dto.SubscriptionRequest;
+import com.ranjana.springboot.localMVP.dto.SubscriptionResponse;
 import com.ranjana.springboot.localMVP.repository.SubscriptionRepository;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class SubscriptionService {
@@ -14,18 +18,31 @@ public class SubscriptionService {
         this.repository = repository;
     }
 
-    public Subscription create(SubscriptionRequest request) {
+    public SubscriptionResponse create(SubscriptionRequest request) {
         Subscription s = new Subscription();
         s.setCity(request.getCity());
         s.setMinPrice(request.getMinPrice());
         s.setMaxPrice(request.getMaxPrice());
         s.setMinBedrooms(request.getMinBedrooms());
 
-        return repository.save(s);
+        Subscription saved = repository.save(s);
+        return mapToDto(saved);
     }
 
-    public Subscription get(Long id) {
-        return repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Subscription not found"));
+    public List<SubscriptionResponse> getAll() {
+        return repository.findAll()
+                .stream()
+                .map(this::mapToDto)
+                .collect(Collectors.toList());
+    }
+
+    private SubscriptionResponse mapToDto(Subscription s) {
+        return new SubscriptionResponse(
+                s.getId(),
+                s.getCity(),
+                s.getMinPrice(),
+                s.getMaxPrice(),
+                s.getMinBedrooms()
+        );
     }
 }

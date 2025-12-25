@@ -1,9 +1,10 @@
 package com.ranjana.springboot.localMVP.controller;
 
-import com.ranjana.springboot.localMVP.domain.Listing;
+import com.ranjana.springboot.localMVP.dto.ListingRequest;
 import com.ranjana.springboot.localMVP.dto.ListingResponse;
 import com.ranjana.springboot.localMVP.service.ListingService;
 import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,24 +14,21 @@ import java.util.List;
 @RequestMapping("/listings")
 public class ListingController {
 
-    private final ListingService listingService;
+    private final ListingService service;
 
-    // Constructor injection (Spring will inject ListingService)
-    public ListingController(ListingService listingService) {
-        this.listingService = listingService;
+    public ListingController(ListingService service) {
+        this.service = service;
     }
 
-    // POST /listings → create a new listing
     @PostMapping
-    public ResponseEntity<ListingResponse> createListing(@Valid @RequestBody Listing listing) {
-        ListingResponse savedListing = listingService.saveListing(listing);
-        return ResponseEntity.status(201).body(savedListing);
+    public ResponseEntity<ListingResponse> createListing(
+            @Valid @RequestBody ListingRequest request) {
+        ListingResponse saved = service.create(request);
+        return ResponseEntity.status(HttpStatus.CREATED).body(saved);
     }
 
-    // GET /listings → fetch all listings
     @GetMapping
     public ResponseEntity<List<ListingResponse>> getAllListings() {
-        List<ListingResponse> listings = listingService.getAllListings();
-        return ResponseEntity.ok(listings);
+        return ResponseEntity.ok(service.getAll());
     }
 }

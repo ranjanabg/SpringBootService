@@ -18,12 +18,7 @@ public class ListingService {
         this.listingRepository = listingRepository;
     }
 
-    public ListingResponse saveListing(Listing listing) {
-        Listing saved = listingRepository.save(listing);
-        return mapToDto(saved);
-    }
-
-    public ListingResponse createListing(ListingRequest request) {
+    public ListingResponse create(ListingRequest request) {
         Listing listing = new Listing();
         listing.setCity(request.getCity());
         listing.setPrice(request.getPrice());
@@ -33,7 +28,7 @@ public class ListingService {
         return mapToDto(saved);
     }
 
-    public List<ListingResponse> getAllListings() {
+    public List<ListingResponse> getAll() {
         return listingRepository.findAll()
                 .stream()
                 .map(this::mapToDto)

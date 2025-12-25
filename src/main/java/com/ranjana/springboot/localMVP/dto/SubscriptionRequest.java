@@ -22,18 +22,40 @@ public class SubscriptionRequest {
     private Integer minBedrooms;
 
     // Default constructor
-    public SubscriptionRequest() {}
+    public SubscriptionRequest() {
+    }
 
     // Getters & setters
-    public String getCity() { return city; }
-    public void setCity(String city) { this.city = city; }
+    public String getCity() {
+        return city;
+    }
 
-    public Integer getMinPrice() { return minPrice; }
-    public void setMinPrice(Integer minPrice) { this.minPrice = minPrice; }
+    public void setCity(String city) {
+        this.city = city;
+    }
 
-    public Integer getMaxPrice() { return maxPrice; }
-    public void setMaxPrice(Integer maxPrice) { this.maxPrice = maxPrice; }
+    public Integer getMinPrice() {
+        return minPrice;
+    }
 
-    public Integer getMinBedrooms() { return minBedrooms; }
-    public void setMinBedrooms(Integer minBedrooms) { this.minBedrooms = minBedrooms; }
+    public void setMinPrice(Integer minPrice) {
+        this.minPrice = minPrice;
+    }
+
+    public Integer getMaxPrice() {
+        return maxPrice;
+    }
+
+    public void setMaxPrice(Integer maxPrice) {
+        this.maxPrice = maxPrice;
+    }
+
+    public Integer getMinBedrooms() {
+        return minBedrooms;
+    }
+
+    public void setMinBedrooms(Integer minBedrooms) {
+        this.minBedrooms = minBedrooms;
+    }
 }
+

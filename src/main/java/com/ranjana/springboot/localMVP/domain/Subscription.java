@@ -18,6 +18,8 @@ public class Subscription {
         // JPA requirement
     }
 
+    public Long getId() { return id; }
+
     public void setCity(String city) {
         this.city = city;
     }
