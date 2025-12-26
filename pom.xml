@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.ranjana.springboot</groupId>
-	<artifactId>localMVP</artifactId>
+	<artifactId>HouseFinder</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>localMVP</name>
+	<name>HouseFinder</name>
 	<description>MVP Spring Boot Web Service </description>
 	<url/>
 	<licenses>
@@ -70,6 +70,11 @@
 			<artifactId>junit-jupiter-api</artifactId>
 			<version>5.10.2</version>
 			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+			<scope>runtime</scope>
 		</dependency>
 	</dependencies>
 
