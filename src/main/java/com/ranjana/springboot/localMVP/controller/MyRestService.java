@@ -11,4 +11,9 @@ public class MyRestService {
     public String SayHello () {
         return "Hello Ranjana";
     }
+
+    @GetMapping("/hororscope")
+    public String ReadTodayHoroscope() {
+        return "Abundance of success will flow into your life!";
+    }
 }
